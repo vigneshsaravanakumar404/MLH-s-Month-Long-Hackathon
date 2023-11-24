@@ -3,7 +3,7 @@ import streamlit as st
 def check_credentials(username, password):
     # Placeholder for actual authentication logic
     # Return True if credentials are valid, False otherwise
-    return True if username == "admin" and password == "password" else False
+    return True if username == "1" and password == "2" else False
 
 def app():
     st.title('Login to Recycle AI')
