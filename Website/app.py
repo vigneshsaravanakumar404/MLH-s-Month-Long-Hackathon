@@ -1,6 +1,4 @@
 import streamlit as st
-import about
-import account
 import home
 import learn 
 import login
@@ -29,8 +27,6 @@ user_choice = st.sidebar.selectbox("Choose a page:", pages)
 # Pages for non-logged-in users
 if user_choice == "Home":
     home.app()
-elif user_choice == "About":
-    about.app()
 elif user_choice == "Login" and not st.session_state['logged_in']:
     login.app()
 elif user_choice == "Register" and not st.session_state['logged_in']:
@@ -47,5 +43,3 @@ if st.session_state['logged_in']:
         scan.app()
     elif user_choice == "Learn":
         learn.app()
-    elif user_choice == "Account":
-        account.app()
