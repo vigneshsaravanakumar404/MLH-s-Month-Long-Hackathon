@@ -5,10 +5,24 @@ from ultralytics import YOLO
 import base64
 import io
 
+# Variables
 app = Flask(__name__)
 model = YOLO('yolov8x.pt')
 
+# Methods
 def draw_label(image, box, class_name, confidence):
+    """
+    Draws a labeled bounding box on the given image.
+
+    Args:
+        image (numpy.ndarray): The image on which to draw the bounding box.
+        box (tuple): The coordinates of the bounding box in the format (x1, y1, x2, y2).
+        class_name (str): The name of the class associated with the bounding box.
+        confidence (float): The confidence score for the detected class.
+
+    Returns:
+        None
+    """
     x1, y1, x2, y2 = [int(i) for i in box]
     cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
     label = f"{class_name}: {confidence:.2f}"
@@ -17,6 +31,33 @@ def draw_label(image, box, class_name, confidence):
 
 @app.route('/objects', methods=['POST'])
 def get_objects():
+    """
+    Endpoint for detecting objects in an image.
+
+    Returns a JSON response containing the detected objects and the processed image.
+
+    Request Body:
+    {
+        "image": "<base64 encoded image>"
+    }
+
+    Response Body:
+    {
+        "objects": [
+            {
+                "class_id": "<class id>",
+                "confidence": <confidence score>,
+                "coordinates": [<x1>, <y1>, <x2>, <y2>]
+            },
+            ...
+        ],
+        "image": "<base64 encoded image>"
+    }
+
+    Returns:
+        - 200 OK: If the objects are successfully detected and the response is generated.
+        - 400 Bad Request: If no image is provided or the image is invalid.
+    """
     data = request.json
     if 'image' not in data:
         return jsonify({"error": "No image provided"}), 400
