@@ -37,7 +37,7 @@ elif user_choice == "Register" and not st.session_state['logged_in']:
     register.app()
 elif user_choice == "Logout":
     st.session_state['logged_in'] = False
-    st.experimental_rerun()
+    st.rerun()
 
 # Pages for logged-in users
 if st.session_state['logged_in']:
