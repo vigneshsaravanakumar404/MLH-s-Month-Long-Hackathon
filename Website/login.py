@@ -18,3 +18,7 @@ def app():
             st.experimental_rerun()
         else:
             st.error("Incorrect username or password")
+
+# TODO: by Aryan
+# Use https://docs.streamlit.io/library/api-reference for reference
+# See directions in Website/register.py
