@@ -69,7 +69,7 @@ def app():
                         color: lightgreen;
                     }
                     </style>
-                    <p class='big-font'>The Data From our AI:</p>
+                    <p class='big-font'>The Data From our AI</p>
                     """, unsafe_allow_html=True)
                 st.write(response_data)
 
@@ -84,7 +84,7 @@ def app():
                         color: lightgreen;
                     }
                     </style>
-                    <p class='big-font'>The image fomr our AI:</p>
+                    <p class='big-font'>The image from our AI</p>
                     """, unsafe_allow_html=True)
                 st.image(image, caption='What we see', use_column_width=True)
             else:
