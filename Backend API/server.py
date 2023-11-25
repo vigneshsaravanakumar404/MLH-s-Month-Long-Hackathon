@@ -4,6 +4,7 @@ import numpy as np
 from ultralytics import YOLO
 import base64
 import io
+import os
 
 # Variables
 app = Flask(__name__)
@@ -81,7 +82,20 @@ def get_objects():
         _, buffer = cv2.imencode('.jpg', source)
         encoded_image = base64.b64encode(buffer).decode('utf-8')
         
+        if os.path.exists("image.jpg"):
+            i = 2
+            while os.path.exists("image" + str(i) + ".jpg"):
+                i += 1
+            with open("image" + str(i) + ".jpg", "w") as f:
+                cv2.imwrite("image" + str(i) + ".jpg", source)
+        else:
+            with open("image.jpg", "w") as f:
+                cv2.imwrite("image.jpg", source)
+
+
         return jsonify({"objects": objects, "image": encoded_image}), 200
+
     except Exception as e:
         print(e)
         return jsonify({"error": "Invalid image"}), 400
+    

@@ -87,6 +87,9 @@ def app():
                     <p class='big-font'>The image from our AI</p>
                     """, unsafe_allow_html=True)
                 st.image(image, caption='What we see', use_column_width=True)
+
+                # Save image to Website\Usage History
+                image.save('Usage History/' + str(time.time()) + '.jpg')
             else:
                 st.error("Failed to connect to the server after several attempts.")
                 progress_bar.empty()
