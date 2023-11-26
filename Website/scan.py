@@ -5,6 +5,8 @@ import json
 import time
 from PIL import Image
 import io
+import redis
+import json
 
 # TODO: 
 # Add information about recycling
@@ -37,6 +39,19 @@ def send_image_to_server(image, url):
                 st.warning("Connection error, retrying...")
             time.sleep(1)
     return None
+
+def retrieve_recycling_information_redis():
+    hostname = 'redis-12111.c321.us-east-1-2.ec2.cloud.redislabs.com'
+    port = 12111
+    password = 'ijNeFVOexsgOvFBn0Q4grGb3OOwXACkZ'
+    key = 'RecyclingData'
+
+    # Attempt to retrieve data from Redis
+    try:
+        return json.loads(redis.Redis(host = hostname, port = port, password = password, ssl=False).get(key))
+    except Exception as e:
+        return None
+
 
 def app():
     st.header("Scan")
@@ -107,10 +122,7 @@ def app():
                 st.balloons()
                 st.write("You have earned 1 RecycleCoin!")
 
-                
-
-
-
+                # st.write(retrieve_recycling_information_redis())
             else:
                 st.error("Failed to connect to the server after several attempts.")
                 progress_bar.empty()
