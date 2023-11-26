@@ -40,7 +40,17 @@ def send_image_to_server(image, url):
             time.sleep(1)
     return None
 
+
 def retrieve_recycling_information_redis():
+    """
+    Retrieve recycling information from Redis.
+
+    This function connects to a Redis server and attempts to retrieve the recycling data
+    stored under the 'RecyclingData' key.
+
+    Returns:
+        dict or None: The recycling data stored in Redis, or None if an error occurs.
+    """
     hostname = 'redis-12111.c321.us-east-1-2.ec2.cloud.redislabs.com'
     port = 12111
     password = 'ijNeFVOexsgOvFBn0Q4grGb3OOwXACkZ'
@@ -48,7 +58,7 @@ def retrieve_recycling_information_redis():
 
     # Attempt to retrieve data from Redis
     try:
-        return json.loads(redis.Redis(host = hostname, port = port, password = password, ssl=False).get(key))
+        return json.loads(redis.Redis(host=hostname, port=port, password=password, ssl=False).get(key))
     except Exception as e:
         return None
 
