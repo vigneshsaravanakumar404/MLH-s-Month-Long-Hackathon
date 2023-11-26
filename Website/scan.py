@@ -40,7 +40,6 @@ def send_image_to_server(image, url):
             time.sleep(1)
     return None
 
-
 def retrieve_recycling_information_redis():
     """
     Retrieve recycling information from Redis.
@@ -61,7 +60,6 @@ def retrieve_recycling_information_redis():
         return json.loads(redis.Redis(host=hostname, port=port, password=password, ssl=False).get(key))
     except Exception as e:
         return None
-
 
 def app():
     st.header("Scan")
@@ -132,7 +130,7 @@ def app():
                 st.balloons()
                 st.write("You have earned 1 RecycleCoin!")
 
-                # st.write(retrieve_recycling_information_redis())
+                st.write(retrieve_recycling_information_redis())
             else:
                 st.error("Failed to connect to the server after several attempts.")
                 progress_bar.empty()
