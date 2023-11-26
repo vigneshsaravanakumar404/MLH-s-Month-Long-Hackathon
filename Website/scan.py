@@ -134,7 +134,6 @@ def app():
                 # Config
                 progress_bar.empty()
                 response_data = response.json()
-                image.save('Usage History/' + str(time.time()) + '.jpg')
 
                 # Display information about recycling
                 st.markdown("""
@@ -156,10 +155,16 @@ def app():
                     """, unsafe_allow_html=True)
                 st.header("♻️ Recycling Information For the Items Detected")
                 recycling_info = retrieve_recycling_information_redis()
-                for info in recycling_info:
-                    # Determine the color of the title based on isRecyclable
-                    title_color = "#ff4d4d" if not info["isRecyclable"] else "#4CAF50"  # Red for non-recyclable, green for recyclable
+                objects = [item["class_id"] for item in response_data["objects"]]
 
+                # Filter and Separate Items
+                filtered_recycling_info = [item for item in recycling_info if item["item"] in objects]
+                recyclable_items = [info for info in filtered_recycling_info if info["isRecyclable"]]
+                non_recyclable_items = [info for info in filtered_recycling_info if not info["isRecyclable"]]
+
+                # Display sections for recyclable items
+                st.markdown(f"<h4 style='color: #4CAF50;'>Recyclable Items in the Scan</h4>", unsafe_allow_html=True)
+                for info in recyclable_items:
                     with st.expander(f"🔍 Recycling Information for {info['item'].title()}", expanded=False):
                         col1, col2 = st.columns(2)
 
@@ -189,10 +194,48 @@ def app():
                             st.markdown(f"<span style='color: #FF9800;'>🔄 Alternative Disposal Options:</span>", unsafe_allow_html=True)
                             st.text(info["alternativeDisposalOptions"])
 
-                        # Additional field indicating whether to recycle
-                        recycle_decision_color = "#4CAF50" if info["shouldRecycle"] else "#ff4d4d"
-                        recycle_decision_text = "Yes, recycle this item." if info["shouldRecycle"] else "No, do not recycle this item."
-                        st.markdown(f"<span style='color: {recycle_decision_color};'>🔄 Should Recycle: {recycle_decision_text}</span>", unsafe_allow_html=True)
+                        st.markdown(f"<span style='color: #8BC34A;'>ℹ️ Other Important Info:</span>", unsafe_allow_html=True)
+                        st.text(info["otherImportantInfo"])
+
+                        st.markdown(f"<span style='color: #00BCD4;'>⏳ Average Lifespan:</span>", unsafe_allow_html=True)
+                        st.text(info["averageLifespan"])
+
+                        st.markdown(f"<span style='color: #FFC107;'>📊 Recycling Rate Statistics:</span>", unsafe_allow_html=True)
+                        st.text(info["recyclingRateStatistics"])
+                if len(recyclable_items) == 0:
+                    st.markdown(f"<span style='color: #FFEB3B;'>No Recyclable Items in the Scan</span>", unsafe_allow_html=True)
+
+                # Display sections for non-recyclable items
+                st.markdown(f"<h4 style='color: #ff4d4d;'>Not Recyclable Items in the Scan</h4>", unsafe_allow_html=True)
+                for info in non_recyclable_items:
+                    with st.expander(f"🔍 Recycling Information for {info['item'].title()}", expanded=False):
+                        col1, col2 = st.columns(2)
+
+                        with col1:
+                            st.markdown(f"<span style='color: #4CAF50;'>🧱 Material Composition:</span>", unsafe_allow_html=True)
+                            st.text(info["materialComposition"])
+                            
+                            st.markdown(f"<span style='color: #FF5722;'>⚠️ Hazardous Components:</span>", unsafe_allow_html=True)
+                            st.text(info["hazardousComponents"])
+                            
+                            st.markdown(f"<span style='color: #00BCD4;'>🌍 Environmental Impact:</span>", unsafe_allow_html=True)
+                            st.text(info["environmentalImpact"])
+                            
+                            st.markdown(f"<span style='color: #9C27B0;'>🔄 Recycling Process:</span>", unsafe_allow_html=True)
+                            st.text(info["recyclingProcessDescription"])
+
+                        with col2:
+                            st.markdown(f"<span style='color: #3F51B5;'>📋 Sorting Requirements:</span>", unsafe_allow_html=True)
+                            st.text(info["sortingRequirements"])
+                            
+                            st.markdown(f"<span style='color: #E91E63;'>🆙 Upcycling Opportunities:</span>", unsafe_allow_html=True)
+                            st.text(info["upcyclingOpportunities"])
+                            
+                            st.markdown(f"<span style='color: #009688;'>♻️ Preparation for Recycling:</span>", unsafe_allow_html=True)
+                            st.text(info["preparationForRecycling"])
+                            
+                            st.markdown(f"<span style='color: #FF9800;'>🔄 Alternative Disposal Options:</span>", unsafe_allow_html=True)
+                            st.text(info["alternativeDisposalOptions"])
 
                         st.markdown(f"<span style='color: #8BC34A;'>ℹ️ Other Important Info:</span>", unsafe_allow_html=True)
                         st.text(info["otherImportantInfo"])
@@ -202,8 +245,8 @@ def app():
 
                         st.markdown(f"<span style='color: #FFC107;'>📊 Recycling Rate Statistics:</span>", unsafe_allow_html=True)
                         st.text(info["recyclingRateStatistics"])
-
-                        # Add more fields as needed
+                if len(non_recyclable_items) == 0:
+                    st.markdown(f"<span style='color: #FFEB3B;'>No Non-Recyclable Items in the Scan</span>", unsafe_allow_html=True)
 
                 # Display JSON
                 st.header("🤖 The Data from our AI")
@@ -217,9 +260,9 @@ def app():
                 st.image(image, caption='What we see', use_column_width=True)
 
                 # TODO: Display Success Messages if item is recyclable based on logic
-                st.success("Item scanned successfully!")
                 st.balloons()
-                st.write("You have earned 1 RecycleCoin!")                
+                st.write("You have earned 1 RecycleCoin!") 
+                image.save('Usage History/' + str(time.time()) + '.jpg')               
 
             else:
 
