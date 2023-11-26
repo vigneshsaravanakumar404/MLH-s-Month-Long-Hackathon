@@ -62,16 +62,23 @@ def retrieve_recycling_information_redis():
         return None
 
 def app():
-    # Custom CSS to inject
+    # Custom CSS to inject for a dark-themed website
     st.markdown("""
     <style>
     .big-font {
         font-size:20px !important;
         font-weight: bold;
+        color: #E8E6E3;  /* Light gray color for better visibility on dark background */
     }
     .info-text {
         font-size:16px;
-        color: #4a4a4a;
+        color: #D6D3D1;  /* Slightly darker shade of gray for contrast */
+    }
+    .sidebar .big-font, .sidebar .info-text {
+        color: #FFFFFF;  /* White color for text in the sidebar */
+    }
+    ul {
+        color: #E8E6E3;
     }
     </style>
     """, unsafe_allow_html=True)
