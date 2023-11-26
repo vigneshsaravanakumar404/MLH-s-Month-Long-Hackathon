@@ -93,7 +93,7 @@ def app():
                 class_ids = [obj['class_id'] for obj in response_data['objects']]
                 st.write("Class IDs:", class_ids)
 
-                # TODO: Display information about recycling ♻️
+                # TODO: Display information about recycling
                 st.header("♻️ Recycling Information")
                 st.write(retrieve_recycling_information_redis())
 
