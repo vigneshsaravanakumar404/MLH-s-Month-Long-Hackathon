@@ -5,6 +5,8 @@ import json
 import time
 from PIL import Image
 import io
+import redis
+import json
 
 # TODO: 
 # Add information about recycling
@@ -38,6 +40,27 @@ def send_image_to_server(image, url):
             time.sleep(1)
     return None
 
+def retrieve_recycling_information_redis():
+    """
+    Retrieve recycling information from Redis.
+
+    This function connects to a Redis server and attempts to retrieve the recycling data
+    stored under the 'RecyclingData' key.
+
+    Returns:
+        dict or None: The recycling data stored in Redis, or None if an error occurs.
+    """
+    hostname = 'redis-12111.c321.us-east-1-2.ec2.cloud.redislabs.com'
+    port = 12111
+    password = 'ijNeFVOexsgOvFBn0Q4grGb3OOwXACkZ'
+    key = 'RecyclingData'
+
+    # Attempt to retrieve data from Redis
+    try:
+        return json.loads(redis.Redis(host=hostname, port=port, password=password, ssl=False).get(key))
+    except Exception as e:
+        return None
+
 def app():
     st.header("Scan")
     st.write("Scan items to recycle them correctly.")
@@ -59,37 +82,39 @@ def app():
             
             if response is not None:
                 progress_bar.empty()
-                response_data = response.json()  
+                response_data = response.json()
+
+                # TODO: Display Success Messages if item is recyclable based on logic
+                st.success("Item scanned successfully!")
+                st.balloons()
+                st.write("You have earned 1 RecycleCoin!")
+
+                # Display class IDs
+                class_ids = [obj['class_id'] for obj in response_data['objects']]
+                st.write("Class IDs:", class_ids)
+
+                # TODO: Display information about recycling
+                st.header("♻️ Recycling Information")
+                st.write(retrieve_recycling_information_redis())
 
                 # Display JSON
-                st.markdown("""
-                    <style>
-                    .big-font {
-                        font-size: 30px !important;
-                        color: lightgreen;
-                    }
-                    </style>
-                    <p class='big-font'>The Data From our AI</p>
-                    """, unsafe_allow_html=True)
+                st.header("🤖 The Data from our AI")
                 st.write(response_data)
 
                 # Display image
                 response_image = response_data['image']
                 decoded_image = base64.b64decode(response_image)
                 image = Image.open(io.BytesIO(decoded_image))
-                st.markdown("""
-                    <style>
-                    .big-font {
-                        font-size: 30px !important;
-                        color: lightgreen;
-                    }
-                    </style>
-                    <p class='big-font'>The image from our AI</p>
-                    """, unsafe_allow_html=True)
+                st.header("📸 The Image We See")
                 st.image(image, caption='What we see', use_column_width=True)
 
                 # Save image to Website\Usage History
                 image.save('Usage History/' + str(time.time()) + '.jpg')
+
+
+                # TODO: Add logic to add NFT to wallet once image is scanned
+                # Implement logic to limit to 1 per type of item and 10 total recycable items per day
+                # Implement logic to update user profile
             else:
                 st.error("Failed to connect to the server after several attempts.")
                 progress_bar.empty()
