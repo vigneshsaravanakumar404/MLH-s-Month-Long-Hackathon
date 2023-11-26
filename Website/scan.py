@@ -62,10 +62,48 @@ def retrieve_recycling_information_redis():
         return None
 
 def app():
-    st.header("Scan")
-    st.write("Scan items to recycle them correctly.")
+    # Custom CSS to inject
+    st.markdown("""
+    <style>
+    .big-font {
+        font-size:20px !important;
+        font-weight: bold;
+    }
+    .info-text {
+        font-size:16px;
+        color: #4a4a4a;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-    img_file_buffer = st.camera_input("Take a picture")
+    # Header
+    st.title("♻️ Recycling Scanner")
+    st.markdown("""
+        <div class='info-text'>
+            Welcome to the Recycling Scanner! This tool helps you identify recyclable items 
+            using your camera. Simply take a picture, and let the AI do the rest.
+        </div>
+    """, unsafe_allow_html=True)
+
+    # Sidebar
+    with st.sidebar:
+        st.markdown("📃 <span class='big-font'>Instructions</span>", unsafe_allow_html=True)
+        st.markdown("""
+            <ul>
+                <li>Click on 'Take a picture' below.</li>
+                <li>Allow camera access if prompted.</li>
+                <li>Capture the image of the item you want to check.</li>
+                <li>Wait for the AI to analyze the image.</li>
+                <li>View the results and recycling information.</li>
+                <li>If applicable, add the NFT to your wallet.</li>
+            </ul>
+        """, unsafe_allow_html=True)
+        st.markdown("### Want to Learn More about your NFT?")
+        st.caption("If you encounter any issues, visit our your profile page")
+
+    # Camera input
+    st.header("📸 Scan Your Item")
+    img_file_buffer = st.camera_input(" ")
 
     if img_file_buffer is not None:
         image_bytes = img_file_buffer.getvalue()
@@ -119,4 +157,4 @@ def app():
                 st.error("Failed to connect to the server after several attempts.")
                 progress_bar.empty()
     else:
-        st.write("No image selected")
+        st.info("Please capture an image using your camera")
