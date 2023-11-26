@@ -84,11 +84,18 @@ def app():
                 progress_bar.empty()
                 response_data = response.json()
 
+                # TODO: Display Success Messages if item is recyclable based on logic
+                st.success("Item scanned successfully!")
+                st.balloons()
+                st.write("You have earned 1 RecycleCoin!")
+
+                # Display class IDs
                 class_ids = [obj['class_id'] for obj in response_data['objects']]
                 st.write("Class IDs:", class_ids)
 
-                # Display information about recycling ♻️
+                # TODO: Display information about recycling ♻️
                 st.header("♻️ Recycling Information")
+                st.write(retrieve_recycling_information_redis())
 
                 # Display JSON
                 st.markdown("""
@@ -124,13 +131,6 @@ def app():
                 # TODO: Add logic to add NFT to wallet once image is scanned
                 # Implement logic to limit to 1 per type of item and 10 total recycable items per day
                 # Implement logic to update user profile
-                
-                # Display Success Messages if item is recyclable based on above
-                st.success("Item scanned successfully!")
-                st.balloons()
-                st.write("You have earned 1 RecycleCoin!")
-
-                st.write(retrieve_recycling_information_redis())
             else:
                 st.error("Failed to connect to the server after several attempts.")
                 progress_bar.empty()
