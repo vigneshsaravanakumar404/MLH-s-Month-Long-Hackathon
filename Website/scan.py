@@ -8,9 +8,12 @@ import io
 import redis
 import json
 
+
 # TODO: 
-# Add information about recycling
+# Display items detected at the top
+# Format recycling information based on items detected
 # Add logic to add NFT to wallet once image is scanned
+# Use redis cloud to store user information (tokens, items recycled, limits, profile picture, etc.)
 # Add logic to limit to 1 per type of item and 10 total recycable items per day
 # Add logic to update user profile
 
@@ -102,7 +105,7 @@ def app():
                 <li>Capture the image of the item you want to check.</li>
                 <li>Wait for the AI to analyze the image.</li>
                 <li>View the results and recycling information.</li>
-                <li>If applicable, add the NFT to your wallet.</li>
+                <li>If applicable, you will get an NFT added to your wallet.</li>
             </ul>
         """, unsafe_allow_html=True)
         st.markdown("### Want to Learn More about your NFT?")
@@ -120,7 +123,7 @@ def app():
             with st.spinner("Processing..."):
                 progress_bar = st.progress(0)
                 for percent_complete in range(100):
-                    time.sleep(0.06)
+                    time.sleep(0.02)
                     progress_bar.progress(percent_complete + 1)
             
             response = send_image_to_server(image=image_bytes, url='http://localhost:5000/objects')
