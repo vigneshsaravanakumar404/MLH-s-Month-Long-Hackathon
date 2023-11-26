@@ -257,7 +257,8 @@ def app():
                 decoded_image = base64.b64decode(response_image)
                 image = Image.open(io.BytesIO(decoded_image))
                 st.header("📸 The Image We See")
-                st.image(image, caption='What we see', use_column_width=True)
+                with st.container():
+                    st.image(image, caption='What we see', use_column_width=True)
 
                 # TODO: Display Success Messages if item is recyclable based on logic
                 st.balloons()
