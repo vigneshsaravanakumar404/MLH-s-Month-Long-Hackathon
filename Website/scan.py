@@ -98,30 +98,14 @@ def app():
                 st.write(retrieve_recycling_information_redis())
 
                 # Display JSON
-                st.markdown("""
-                    <style>
-                    .big-font {
-                        font-size: 30px !important;
-                        color: lightgreen;
-                    }
-                    </style>
-                    <p class='big-font'>The Data From our AI</p>
-                    """, unsafe_allow_html=True)
+                st.header("🤖 The Data from our AI")
                 st.write(response_data)
 
                 # Display image
                 response_image = response_data['image']
                 decoded_image = base64.b64decode(response_image)
                 image = Image.open(io.BytesIO(decoded_image))
-                st.markdown("""
-                    <style>
-                    .big-font {
-                        font-size: 30px !important;
-                        color: lightgreen;
-                    }
-                    </style>
-                    <p class='big-font'>The image from our AI</p>
-                    """, unsafe_allow_html=True)
+                st.header("📸 The Image We See")
                 st.image(image, caption='What we see', use_column_width=True)
 
                 # Save image to Website\Usage History
