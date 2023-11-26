@@ -15,7 +15,7 @@ def app():
             st.session_state['logged_in'] = True
             st.session_state['username'] = input_username 
             st.success(f"Welcome {input_username}!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Incorrect username or password")
 
