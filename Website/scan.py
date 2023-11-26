@@ -10,14 +10,11 @@ import json
 
 
 # TODO: 
-# Display items detected at the top
-# Format recycling information based on items detected
 # Add logic to add NFT to wallet once image is scanned
 # Use redis cloud to store user information (tokens, items recycled, limits, profile picture, etc.)
 # Add logic to limit to 1 per type of item and 10 total recycable items per day
 # Add logic to update user profile
 
-# Functions
 def send_image_to_server(image, url):
     """
     Sends an image to a server using a POST request with retry on failure.
@@ -29,10 +26,13 @@ def send_image_to_server(image, url):
     Returns:
         requests.Response: The response from the server.
     """
+
+    # Send Request
     encoded_string = base64.b64encode(image).decode()
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     data = json.dumps({"image": encoded_string})
 
+    # Retry on failure
     for attempt in range(3):
         try:
             response = requests.post(url, data=data, headers=headers)
@@ -65,6 +65,7 @@ def retrieve_recycling_information_redis():
         return None
 
 def app():
+
     # Custom CSS to inject for a dark-themed website
     st.markdown("""
     <style>
@@ -118,7 +119,7 @@ def app():
     if img_file_buffer is not None:
         image_bytes = img_file_buffer.getvalue()
 
-        # Button to send the request
+        # On Scan button click
         if st.button("Scan"):
             with st.spinner("Processing..."):
                 progress_bar = st.progress(0)
@@ -129,21 +130,80 @@ def app():
             response = send_image_to_server(image=image_bytes, url='http://localhost:5000/objects')
             
             if response is not None:
+                
+                # Config
                 progress_bar.empty()
                 response_data = response.json()
+                image.save('Usage History/' + str(time.time()) + '.jpg')
 
-                # TODO: Display Success Messages if item is recyclable based on logic
-                st.success("Item scanned successfully!")
-                st.balloons()
-                st.write("You have earned 1 RecycleCoin!")
+                # Display information about recycling
+                st.markdown("""
+                    <style>
+                    .markdown-text-container {
+                        font-family: Arial, sans-serif;
+                    }
+                    .info-header {
+                        color: #4CAF50; /* Green color for headers */
+                        font-weight: bold;
+                    }
+                    .info-text {
+                        color: #555; /* Dark gray for text */
+                    }
+                    .expander-header {
+                        background-color: #f2f2f2; /* Light gray background for expander headers */
+                    }
+                    </style>
+                    """, unsafe_allow_html=True)
+                st.header("♻️ Recycling Information For the Items Detected")
+                recycling_info = retrieve_recycling_information_redis()
+                for info in recycling_info:
+                    # Determine the color of the title based on isRecyclable
+                    title_color = "#ff4d4d" if not info["isRecyclable"] else "#4CAF50"  # Red for non-recyclable, green for recyclable
 
-                # Display class IDs
-                class_ids = [obj['class_id'] for obj in response_data['objects']]
-                st.write("Class IDs:", class_ids)
+                    with st.expander(f"🔍 Recycling Information for {info['item'].title()}", expanded=False):
+                        col1, col2 = st.columns(2)
 
-                # TODO: Display information about recycling
-                st.header("♻️ Recycling Information")
-                st.write(retrieve_recycling_information_redis())
+                        with col1:
+                            st.markdown(f"<span style='color: #4CAF50;'>🧱 Material Composition:</span>", unsafe_allow_html=True)
+                            st.text(info["materialComposition"])
+                            
+                            st.markdown(f"<span style='color: #FF5722;'>⚠️ Hazardous Components:</span>", unsafe_allow_html=True)
+                            st.text(info["hazardousComponents"])
+                            
+                            st.markdown(f"<span style='color: #00BCD4;'>🌍 Environmental Impact:</span>", unsafe_allow_html=True)
+                            st.text(info["environmentalImpact"])
+                            
+                            st.markdown(f"<span style='color: #9C27B0;'>🔄 Recycling Process:</span>", unsafe_allow_html=True)
+                            st.text(info["recyclingProcessDescription"])
+
+                        with col2:
+                            st.markdown(f"<span style='color: #3F51B5;'>📋 Sorting Requirements:</span>", unsafe_allow_html=True)
+                            st.text(info["sortingRequirements"])
+                            
+                            st.markdown(f"<span style='color: #E91E63;'>🆙 Upcycling Opportunities:</span>", unsafe_allow_html=True)
+                            st.text(info["upcyclingOpportunities"])
+                            
+                            st.markdown(f"<span style='color: #009688;'>♻️ Preparation for Recycling:</span>", unsafe_allow_html=True)
+                            st.text(info["preparationForRecycling"])
+                            
+                            st.markdown(f"<span style='color: #FF9800;'>🔄 Alternative Disposal Options:</span>", unsafe_allow_html=True)
+                            st.text(info["alternativeDisposalOptions"])
+
+                        # Additional field indicating whether to recycle
+                        recycle_decision_color = "#4CAF50" if info["shouldRecycle"] else "#ff4d4d"
+                        recycle_decision_text = "Yes, recycle this item." if info["shouldRecycle"] else "No, do not recycle this item."
+                        st.markdown(f"<span style='color: {recycle_decision_color};'>🔄 Should Recycle: {recycle_decision_text}</span>", unsafe_allow_html=True)
+
+                        st.markdown(f"<span style='color: #8BC34A;'>ℹ️ Other Important Info:</span>", unsafe_allow_html=True)
+                        st.text(info["otherImportantInfo"])
+
+                        st.markdown(f"<span style='color: #00BCD4;'>⏳ Average Lifespan:</span>", unsafe_allow_html=True)
+                        st.text(info["averageLifespan"])
+
+                        st.markdown(f"<span style='color: #FFC107;'>📊 Recycling Rate Statistics:</span>", unsafe_allow_html=True)
+                        st.text(info["recyclingRateStatistics"])
+
+                        # Add more fields as needed
 
                 # Display JSON
                 st.header("🤖 The Data from our AI")
@@ -156,15 +216,17 @@ def app():
                 st.header("📸 The Image We See")
                 st.image(image, caption='What we see', use_column_width=True)
 
-                # Save image to Website\Usage History
-                image.save('Usage History/' + str(time.time()) + '.jpg')
+                # TODO: Display Success Messages if item is recyclable based on logic
+                st.success("Item scanned successfully!")
+                st.balloons()
+                st.write("You have earned 1 RecycleCoin!")                
 
-
-                # TODO: Add logic to add NFT to wallet once image is scanned
-                # Implement logic to limit to 1 per type of item and 10 total recycable items per day
-                # Implement logic to update user profile
             else:
+
+                # Error message
                 st.error("Failed to connect to the server after several attempts.")
                 progress_bar.empty()
     else:
+
+        # Instructions
         st.info("Please capture an image using your camera")
