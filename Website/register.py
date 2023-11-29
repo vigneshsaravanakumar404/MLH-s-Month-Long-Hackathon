@@ -2,67 +2,103 @@ import streamlit as st
 import hmac
 import time
 import toml
+import auth0
+import json
+import requests
+import http.client
+from auth0.authentication import GetToken
+from auth0.management import Auth0, connections
+
+
 
 def app():
-    st.header("Register for Recycle AI")
-    st.write("Create an account to use Recycle AI.")
+  st.header("Register for Recycle AI")
+  st.write("Create an account to use Recycle AI.")
+
+  AUTH0_DOMAIN = "dev-d5hj6m6f3p5vaiiz.us.auth0.com"
+  CLIENT_ID = "Iz8vFz0HJOnuAOqHCUXruG1mn3mWvPi5"
+  CLIENT_SECRET = "mrP6L_KXVkQgcniPTE--Xcpz5_Z_pTQPOSPTMJeph7c5tAsIJIy4lHTmPl8PwLwv"
+
+  auth0 = Auth0(AUTH0_DOMAIN, CLIENT_ID, None)
+
+  email = st.text_input("Email")
+  firstname = st.text_input("First Name")
+  lastname = st.text_input("Last Name")
+  username = st.text_input("Username")
+  password = st.text_input("Password", type="password")
+  confirm_password = st.text_input("Confirm Password", type="password")
 
 
-def check_password():
-  """Returns `True` if the user had a correct password."""
+  conn = http.client.HTTPSConnection("dev-d5hj6m6f3p5vaiiz.us.auth0.com")
+
+  payload = "{\"client_id\":\"Iz8vFz0HJOnuAOqHCUXruG1mn3mWvPi5\",\"client_secret\":\"mrP6L_KXVkQgcniPTE--Xcpz5_Z_pTQPOSPTMJeph7c5tAsIJIy4lHTmPl8PwLwv\",\"audience\":\"https://dev-d5hj6m6f3p5vaiiz.us.auth0.com/api/v2/\",\"grant_type\":\"client_credentials\"}"
+
+  headers = { 'content-type': "application/json" }
+
+  conn.request("POST", "/oauth/token", payload, headers)
+
+  res = conn.getresponse()
+  data = res.read()
+
+  response_json = json.loads(data.decode("utf-8"))
+  access_token = response_json.get("access_token")
+
+
+  connn = http.client.HTTPConnection("dev-d5hj6m6f3p5vaiiz.us.auth0.com")
+
+  headers = { 'authorization': f'Bearer {access_token}' }
+
+  connn.request("GET", "/", headers=headers)
+
+  res = connn.getresponse()
+  data = res.read()
+
   
 
-  def login_form():
-      """Form with widgets to collect user information"""
-      with st.form("Credentials"):
-          st.text_input("Username", key="username")
-          st.text_input("Password", type="password", key="password")
-          st.text_input("Confirm Password", type="password", key="cp")
-          st.form_submit_button("Sign Up", on_click=password_entered)
+  if st.button("Register"):
+      # Check if passwords match
+      if password == confirm_password and len(password)>10:
 
-  def password_entered():
-      """Checks whether a password entered by the user is correct."""
-      secrets_file_path = ".streamlit/secrets.toml"
-      with open(secrets_file_path, "r") as f:
-        secrets = toml.load(f)
-      new_secret_name = st.session_state["username"]
-      new_secret_value = st.session_state["password"]
-      secrets[new_secret_name] = new_secret_value
+          given_name = firstname
+          family_name = lastname
+        
+          url = "https://dev-d5hj6m6f3p5vaiiz.us.auth0.com/api/v2/users"
 
-      with open(secrets_file_path, "w") as f:
-          st.secrets.dump(secrets, f)
-    
-      if st.session_state["username"] in st.secrets[
-          "passwords"
-      ] and hmac.compare_digest(
-          st.session_state["password"],
-          st.secrets.passwords[st.session_state["username"]],
-      ):
-          st.session_state["password_correct"] = True
-          del st.session_state["password"]  # Don't store the username or password.
-          del st.session_state["username"]
+          payload = {
+            "email": email,
+            "user_metadata": {},
+            "blocked": False,
+            "email_verified": False,
+            "app_metadata": {},
+            "given_name": given_name,
+            "family_name": family_name,
+            "name": given_name,
+            "nickname": given_name,
+            #"picture": "string",
+            "user_id": username,
+            "connection": "Username-Password-Authentication",
+            "password": password,
+            "verify_email": False,
+            
+          }
+
+          headers = {
+              'Authorization': f'Bearer {access_token}',
+              'Content-Type': 'application/json',
+          }
+
+          response = requests.post(url, headers=headers, data=json.dumps(payload))
+
+          #return response.text
+          print(response.text)
+          if("error" in response.text):
+            st.error(response.text)
+
+
       else:
-          st.session_state["password_correct"] = False
+          st.error("Passwords do not match or password is too weak. Please try again.")
 
-  # Return True if the username + password is validated.
-  if st.session_state.get("password_correct", False):
-      return True
-
-  # Show inputs for username + password.
-  login_form()
-  if "password_correct" in st.session_state:
-      st.error("😕 User not known or password incorrect")
-  return False
+# Main Streamlit app starts here
 
 
-if not check_password():
-  st.stop()
-
-# TODO: by Aryan
-# Use https://docs.streamlit.io/library/api-reference for reference
-# You need to use auth0 to register new uersers
-# Idk how auth0 works, but if you need to store any data (not already stored in auth0) then you should try to use a JSON file
-# ...or one of the sponsors
-# CREATE A NEW BRANCH
-# DO NOT PUSH TO MAIN
-# Make the page look good. Use other examples on the website for reference.
+app()
