@@ -95,6 +95,15 @@ def app():
             st.error(response.text)
 
 
+      st.success('This is a success message!', icon="✅")
+      st.sidebar.title("♻️ Recycle AI")
+      st.sidebar.markdown("## Navigation")
+      pages = ["Home", "About", "Login", "Register"]
+      user_choice = st.sidebar.selectbox("Choose a page:", pages)
+      st.session_state['logged_in'] = True
+      st.session_state['username'] = username
+
+
       else:
           st.error("Passwords do not match or password is too weak. Please try again.")
 
