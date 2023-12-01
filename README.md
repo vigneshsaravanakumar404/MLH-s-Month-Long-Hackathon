@@ -78,10 +78,3 @@ Tejas Raghuram
 Vignesh Saravanakumar
 
 </div>
-
-## Acknowledgments
-
-A special thanks to those who have inspired and supported us in our journey to make recycling accessible and rewarding for everyone.
-
-- [Acknowledgment 1](link-to-source)
-- [Acknowledgment 2](link-to-source)
