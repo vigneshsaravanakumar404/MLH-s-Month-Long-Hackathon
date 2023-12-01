@@ -54,6 +54,9 @@ To install and run RecycleAI, follow these steps:
 
    This command initiates the app, and you should be able to access it from your web browser.
 
+
+---
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,6 +104,7 @@ To install and run RecycleAI, follow these steps:
 </body>
 </html>
 
+---
 
 ## Contributors
 
