@@ -24,17 +24,17 @@
 ---
 
 <img src="https://avatars.githubusercontent.com/u/62579368?v=4" alt="AKherb" style="width: 100px; height: 100px; border-radius: 50%;" />
-**[AKherb](https://github.com/AKherb)**
+![AKherb](https://github.com/AKherb)
 
 ---
 
 <img src="https://avatars.githubusercontent.com/u/81490748?v=4" alt="TejasRaghuram" style="width: 100px; height: 100px; border-radius: 50%;" />
-**[TejasRaghuram](https://github.com/TejasRaghuram)**
+![TejasRaghuram](https://github.com/TejasRaghuram)
 
 ---
 
 <img src="https://avatars.githubusercontent.com/u/74271045?v=4" alt="vigneshsaravanakumar404" style="width: 100px; height: 100px; border-radius: 50%;" />
-**[vigneshsaravanakumar404](https://github.com/vigneshsaravanakumar404)**
+![vigneshsaravanakumar404](https://github.com/vigneshsaravanakumar404)
 
 ---
 
