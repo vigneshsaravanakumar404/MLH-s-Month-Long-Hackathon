@@ -1,24 +1,69 @@
 import streamlit as st
+import hmac
+import time
+import toml
 
-def check_credentials(username, password):
-    # Placeholder for actual authentication logic
-    # Return True if credentials are valid, False otherwise
-    return True if username == "1" and password == "2" else False
+import json
+import requests
+import http.client
+
+
 
 def app():
-    st.title('Login to Recycle AI')
-    input_username = st.text_input("Username", key='input_username')
-    input_password = st.text_input("Password", type="password", key='input_password')
+  st.header("Login for Recycle AI")
+  st.write("Log in to use Recycle AI.")
 
-    if st.button('Login'):
-        if check_credentials(input_username, input_password):
-            st.session_state['logged_in'] = True
-            st.session_state['username'] = input_username 
-            st.success(f"Welcome {input_username}!")
-            st.rerun()
-        else:
-            st.error("Incorrect username or password")
+  AUTH0_DOMAIN = "dev-d5hj6m6f3p5vaiiz.us.auth0.com"
+  CLIENT_ID = "Iz8vFz0HJOnuAOqHCUXruG1mn3mWvPi5"
+  CLIENT_SECRET = "mrP6L_KXVkQgcniPTE--Xcpz5_Z_pTQPOSPTMJeph7c5tAsIJIy4lHTmPl8PwLwv"
 
-# TODO: by Aryan
-# Use https://docs.streamlit.io/library/api-reference for reference
-# See directions in Website/register.py
+  email = st.text_input("Email")
+  username = st.text_input("Username")
+  password = st.text_input("Password", type="password")
+
+  if st.button("Login") and username is not None: 
+
+
+
+
+    your_redirect_uri = "https://github.com"
+    your_state = "STATE"
+
+    # Specify additional parameters if needed
+    additional_parameters = {
+        "param1": "value1",
+        "param2": "value2",
+        # Add more parameters as necessary
+    }
+
+    # Construct the URL with parameters
+    url = f"https://{AUTH0_DOMAIN}/authorize"
+    params = {
+        "response_type": "code",  # or "token" depending on your needs
+        "client_id": CLIENT_ID,
+        "connection": "Username-Password-Authentication",
+        "redirect_uri": your_redirect_uri,
+        "state": your_state,
+        #**additional_parameters,  # Include additional parameters
+    }
+
+    # Make the GET request
+    response = requests.get(url, params=params)
+    st.success('Log in Success', icon="✅")
+    st.sidebar.title("♻️ Recycle AI")
+    st.sidebar.markdown("## Navigation")
+    pages = ["Home", "About", "Login", "Register"]
+    user_choice = st.sidebar.selectbox("Choose a page:", pages)
+    st.session_state['logged_in'] = True
+    st.session_state['username'] = username
+    #webbrowser.open(response.url)
+
+    # Print the response
+    print(response.url)
+
+
+
+# Main Streamlit app starts here
+
+
+app()

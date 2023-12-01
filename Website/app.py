@@ -2,7 +2,7 @@ import streamlit as st
 import home
 import learn 
 import login
-import profile
+import account
 import register
 import scan
 
@@ -38,7 +38,7 @@ elif user_choice == "Logout":
 # Pages for logged-in users
 if st.session_state['logged_in']:
     if user_choice == "Profile":
-        profile.app()
+        account.app()
     elif user_choice == "Scan":
         scan.app()
     elif user_choice == "Learn":
