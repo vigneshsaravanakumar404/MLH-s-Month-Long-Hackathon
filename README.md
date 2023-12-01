@@ -55,56 +55,15 @@ To install and run RecycleAI, follow these steps:
    This command initiates the app, and you should be able to access it from your web browser.
 
 
----
+## Activity Log
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f6f8fa;
-            color: #24292e;
-        }
-        .activity-log {
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            padding: 20px;
-            margin: 20px;
-        }
-        .commit, .merge, .update {
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 6px;
-        }
-        .commit {
-            background-color: #d6f5d6; /* Light green */
-        }
-        .merge {
-            background-color: #d9edf7; /* Light blue */
-        }
-        .update {
-            background-color: #f9f9f9; /* Light grey */
-        }
-        .timestamp {
-            color: #586069; /* Grey text */
-            font-size: 0.85em;
-        }
-    </style>
-</head>
-<body>
-    <div class="activity-log">
-        <!-- Example Commit Entry -->
-        <div class="commit">
-            Update README.md - <span class="timestamp">8 minutes ago</span>
-        </div>
-        <!-- Add more entries here following the pattern above -->
-        <!-- Use .commit, .merge, or .update classes as needed -->
-    </div>
-</body>
-</html>
+- ![Commit](https://via.placeholder.com/15/d6f5d6/000000?text=+) `Update README.md` - 8 minutes ago
+- ![Commit](https://via.placeholder.com/15/d6f5d6/000000?text=+) `Update README.md` - 10 minutes ago
+- ![Merge](https://via.placeholder.com/15/d9edf7/000000?text=+) `Merge remote-tracking branch 'origin/register'` - 1 hour ago
+- ![Update](https://via.placeholder.com/15/f9f9f9/000000?text=+) `Update login.py with better` - 1 hour ago
+- ![Commit](https://via.placeholder.com/15/d6f5d6/000000?text=+) `Update register.py with Flow implemented` - 1 hour ago
+<!-- Continue listing activities following the pattern above -->
 
----
 
 ## Contributors
 
