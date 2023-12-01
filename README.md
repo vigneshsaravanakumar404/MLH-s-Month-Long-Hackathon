@@ -52,17 +52,7 @@ To install and run RecycleAI, follow these steps:
    streamlit run app.py
    ```
 
-   This command initiates the app, and you should be able to access it from your web browser.
-
-
-## Activity Log
-
-- ![Commit](https://via.placeholder.com/15/d6f5d6/000000?text=+) `Update README.md` - 8 minutes ago
-- ![Commit](https://via.placeholder.com/15/d6f5d6/000000?text=+) `Update README.md` - 10 minutes ago
-- ![Merge](https://via.placeholder.com/15/d9edf7/000000?text=+) `Merge remote-tracking branch 'origin/register'` - 1 hour ago
-- ![Update](https://via.placeholder.com/15/f9f9f9/000000?text=+) `Update login.py with better` - 1 hour ago
-- ![Commit](https://via.placeholder.com/15/d6f5d6/000000?text=+) `Update register.py with Flow implemented` - 1 hour ago
-<!-- Continue listing activities following the pattern above -->
+   This command initiates the app, and you should be able to access it from your web browser
 
 
 ## Contributors
