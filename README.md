@@ -54,35 +54,52 @@ To install and run RecycleAI, follow these steps:
 
    This command initiates the app, and you should be able to access it from your web browser.
 
-<h2 align="center">🔄 Activity Log</h2>
-
-<p align="center">
-<em>A glimpse into the recent developments in RecycleAI</em>
-</p>
-
-<div style="background-color: #f8f8f8; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-
-<h3>🚀 Recent Updates</h3>
-
-<ul style="list-style-type: none;">
-  <li><strong>Update README.md</strong> - <em>vigneshsaravanakumar404</em> pushed 1 commit to main <code style="background-color: #eee; padding: 2px 4px; border-radius: 4px;">c611fd1…b9a2b44</code> <span style="color: #777;">8 minutes ago</span></li>
-
-  <li><strong>Merge remote-tracking branch 'origin/register'</strong> - <em>vigneshsaravanakumar404</em> pushed 9 commits to main <code style="background-color: #eee; padding: 2px 4px; border-radius: 4px;">232efe4…89b0623</code> <span style="color: #777;">1 hour ago</span></li>
-
-  <li><strong>Update login.py with better</strong> - <em>AKherb</em> pushed 1 commit to register <code style="background-color: #eee; padding: 2px 4px; border-radius: 4px;">4278510…612bf71</code> <span style="color: #777;">1 hour ago</span></li>
-
-  <li><strong>Packages</strong> - <em>vigneshsaravanakumar404</em> pushed 1 commit to main <code style="background-color: #eee; padding: 2px 4px; border-radius: 4px;">2907f96…232efe4</code> <span style="color: #777;">2 days ago</span></li>
-
-  <li><strong>Merge pull request #4 from vigneshsaravanakumar404/main</strong> - <em>AKherb</em> created register <code style="background-color: #eee; padding: 2px 4px; border-radius: 4px;">f458429</code> <span style="color: #777;">4 days ago</span></li>
-
-  <!-- Add more list items as needed -->
-</ul>
-
-</div>
-
-<p align="center">
-  <em>For a complete list of changes, visit the <a href="https://github.com/vigneshsaravanakumar404/RecycleAI/commits/main">commit history</a>.</em>
-</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f8fa;
+            color: #24292e;
+        }
+        .activity-log {
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px;
+        }
+        .commit, .merge, .update {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+        }
+        .commit {
+            background-color: #d6f5d6; /* Light green */
+        }
+        .merge {
+            background-color: #d9edf7; /* Light blue */
+        }
+        .update {
+            background-color: #f9f9f9; /* Light grey */
+        }
+        .timestamp {
+            color: #586069; /* Grey text */
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="activity-log">
+        <!-- Example Commit Entry -->
+        <div class="commit">
+            Update README.md - <span class="timestamp">8 minutes ago</span>
+        </div>
+        <!-- Add more entries here following the pattern above -->
+        <!-- Use .commit, .merge, or .update classes as needed -->
+    </div>
+</body>
+</html>
 
 
 ## Contributors
