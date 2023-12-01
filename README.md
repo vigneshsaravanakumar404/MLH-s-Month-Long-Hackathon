@@ -34,6 +34,7 @@ Choosing RecycleAI is not just about recycling. It's a commitment to a sustainab
 
 ## Sponsor Section
 
+### Other Technologies
 [To be updated]
 
 ### Dependencies
