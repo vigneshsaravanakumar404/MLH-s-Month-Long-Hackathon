@@ -54,33 +54,6 @@ To install and run RecycleAI, follow these steps:
 
    This command initiates the app, and you should be able to access it from your web browser.
 
-## Contributors
-
-Meet the amazing people who made RecycleAI possible:
-
----
-
-<div align="center">
-
-<img src="https://avatars.githubusercontent.com/u/62579368?v=4" alt="AKherb" style="width: 100px; height: 100px; border-radius: 50%;" />
-<br>
-Aryan Kashyap
-
----
-
-<img src="https://avatars.githubusercontent.com/u/81490748?v=4" alt="TejasRaghuram" style="width: 100px; height: 100px; border-radius: 50%;" />
-<br>
-Tejas Raghuram
-
----
-
-<img src="https://avatars.githubusercontent.com/u/74271045?v=4" alt="vigneshsaravanakumar404" style="width: 100px; height: 100px; border-radius: 50%;" />
-<br>
-Vignesh Saravanakumar
-
-</div>
-
----
 <h2 align="center">🔄 Activity Log</h2>
 
 <p align="center">
@@ -111,6 +84,30 @@ Vignesh Saravanakumar
   <em>For a complete list of changes, visit the <a href="https://github.com/vigneshsaravanakumar404/RecycleAI/commits/main">commit history</a>.</em>
 </p>
 
+
+## Contributors
+
+Meet the amazing people who made RecycleAI possible:
+
+<div align="center">
+
+<img src="https://avatars.githubusercontent.com/u/62579368?v=4" alt="AKherb" style="width: 100px; height: 100px; border-radius: 50%;" />
+<br>
+Aryan Kashyap
+
+---
+
+<img src="https://avatars.githubusercontent.com/u/81490748?v=4" alt="TejasRaghuram" style="width: 100px; height: 100px; border-radius: 50%;" />
+<br>
+Tejas Raghuram
+
+---
+
+<img src="https://avatars.githubusercontent.com/u/74271045?v=4" alt="vigneshsaravanakumar404" style="width: 100px; height: 100px; border-radius: 50%;" />
+<br>
+Vignesh Saravanakumar
+
+</div>
 
 ## Acknowledgments
 
